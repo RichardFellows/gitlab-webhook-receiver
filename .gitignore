@@ -82,3 +82,6 @@ artifacts/
 
 # Environment files with secrets
 appsettings.*.local.json
+
+# Docker override (for local customizations)
+docker-compose.override.yml

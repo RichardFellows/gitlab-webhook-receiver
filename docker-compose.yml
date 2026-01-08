@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: gitlab-webhooks-postgres
+    environment:
+      POSTGRES_DB: gitlab_webhooks
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - gitlab-webhook-network
+
+  webapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gitlab-webhook-receiver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__PostgreSQL=Host=postgres;Port=5432;Database=gitlab_webhooks;Username=postgres;Password=postgres_password
+      - GitLab__WebhookSecret=dev-secret-token
+    ports:
+      - "5045:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - gitlab-webhook-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  gitlab-webhook-network:
+    driver: bridge
