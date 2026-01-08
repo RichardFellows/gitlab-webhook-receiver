@@ -1,0 +1,6 @@
+@gitlab_webhook_receiver_HostAddress = http://localhost:5045
+
+GET {{gitlab_webhook_receiver_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

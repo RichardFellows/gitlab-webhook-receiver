@@ -1,0 +1,676 @@
+### GitLab Webhook Test Payloads
+### Use these to test your webhook receiver locally
+
+@baseUrl = https://localhost:7282
+@secret = dev-secret-token
+
+### 1. Pipeline Started (Running)
+POST {{baseUrl}}/webhooks/gitlab
+X-Gitlab-Token: {{secret}}
+X-Gitlab-Event: Pipeline Hook
+Content-Type: application/json
+
+{
+  "object_kind": "pipeline",
+  "object_attributes": {
+    "id": 12345,
+    "iid": 123,
+    "ref": "main",
+    "tag": false,
+    "sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "before_sha": "5f923865dde3436854e9ceb9cdb7815618d4e849",
+    "source": "push",
+    "status": "running",
+    "detailed_status": "running",
+    "stages": [
+      "build",
+      "test",
+      "deploy"
+    ],
+    "created_at": "2024-01-08 10:00:00 UTC",
+    "finished_at": null,
+    "duration": null,
+    "queued_duration": 5,
+    "variables": []
+  },
+  "merge_request": null,
+  "user": {
+    "id": 101,
+    "name": "Jane Developer",
+    "username": "jdeveloper",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/101/avatar.png",
+    "email": "jane@example.com"
+  },
+  "project": {
+    "id": 42,
+    "name": "My Awesome Project",
+    "description": "A great project",
+    "web_url": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "avatar_url": null,
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "namespace": "MyGroup",
+    "visibility_level": 20,
+    "path_with_namespace": "mygroup/my-awesome-project",
+    "default_branch": "main"
+  },
+  "commit": {
+    "id": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "message": "Add new feature for user authentication",
+    "title": "Add new feature for user authentication",
+    "timestamp": "2024-01-08T09:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "author": {
+      "name": "Jane Developer",
+      "email": "jane@example.com"
+    }
+  },
+  "builds": [
+    {
+      "id": 1001,
+      "stage": "build",
+      "name": "build-app",
+      "status": "running",
+      "created_at": "2024-01-08 10:00:00 UTC",
+      "started_at": "2024-01-08 10:00:05 UTC",
+      "finished_at": null,
+      "duration": null,
+      "queued_duration": 5,
+      "when": "on_success",
+      "manual": false,
+      "allow_failure": false,
+      "user": {
+        "id": 101,
+        "name": "Jane Developer",
+        "username": "jdeveloper",
+        "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/101/avatar.png",
+        "email": "jane@example.com"
+      },
+      "runner": {
+        "id": 10,
+        "description": "docker-runner-01",
+        "active": true,
+        "runner_type": "instance_type",
+        "is_shared": true,
+        "tags": ["docker", "linux"]
+      },
+      "artifacts_file": null,
+      "environment": null
+    }
+  ]
+}
+
+### 2. Pipeline Completed (Success)
+POST {{baseUrl}}/webhooks/gitlab
+X-Gitlab-Token: {{secret}}
+X-Gitlab-Event: Pipeline Hook
+Content-Type: application/json
+
+{
+  "object_kind": "pipeline",
+  "object_attributes": {
+    "id": 12345,
+    "iid": 123,
+    "ref": "main",
+    "tag": false,
+    "sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "before_sha": "5f923865dde3436854e9ceb9cdb7815618d4e849",
+    "source": "push",
+    "status": "success",
+    "detailed_status": "passed",
+    "stages": [
+      "build",
+      "test",
+      "deploy"
+    ],
+    "created_at": "2024-01-08 10:00:00 UTC",
+    "finished_at": "2024-01-08 10:15:30 UTC",
+    "duration": 930,
+    "queued_duration": 5,
+    "variables": []
+  },
+  "merge_request": null,
+  "user": {
+    "id": 101,
+    "name": "Jane Developer",
+    "username": "jdeveloper",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/101/avatar.png",
+    "email": "jane@example.com"
+  },
+  "project": {
+    "id": 42,
+    "name": "My Awesome Project",
+    "description": "A great project",
+    "web_url": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "avatar_url": null,
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "namespace": "MyGroup",
+    "visibility_level": 20,
+    "path_with_namespace": "mygroup/my-awesome-project",
+    "default_branch": "main"
+  },
+  "commit": {
+    "id": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "message": "Add new feature for user authentication",
+    "title": "Add new feature for user authentication",
+    "timestamp": "2024-01-08T09:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "author": {
+      "name": "Jane Developer",
+      "email": "jane@example.com"
+    }
+  },
+  "builds": [
+    {
+      "id": 1001,
+      "stage": "build",
+      "name": "build-app",
+      "status": "success",
+      "created_at": "2024-01-08 10:00:00 UTC",
+      "started_at": "2024-01-08 10:00:05 UTC",
+      "finished_at": "2024-01-08 10:05:20 UTC",
+      "duration": 315.5,
+      "queued_duration": 5,
+      "when": "on_success",
+      "manual": false,
+      "allow_failure": false,
+      "user": {
+        "id": 101,
+        "name": "Jane Developer",
+        "username": "jdeveloper",
+        "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/101/avatar.png",
+        "email": "jane@example.com"
+      },
+      "runner": {
+        "id": 10,
+        "description": "docker-runner-01",
+        "active": true,
+        "runner_type": "instance_type",
+        "is_shared": true,
+        "tags": ["docker", "linux"]
+      },
+      "artifacts_file": {
+        "filename": "artifacts.zip",
+        "size": 1024000
+      },
+      "environment": null
+    }
+  ]
+}
+
+### 3. Pipeline Failed
+POST {{baseUrl}}/webhooks/gitlab
+X-Gitlab-Token: {{secret}}
+X-Gitlab-Event: Pipeline Hook
+Content-Type: application/json
+
+{
+  "object_kind": "pipeline",
+  "object_attributes": {
+    "id": 12346,
+    "iid": 124,
+    "ref": "feature/new-api",
+    "tag": false,
+    "sha": "abc123def456789012345678901234567890abcd",
+    "before_sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "source": "push",
+    "status": "failed",
+    "detailed_status": "failed",
+    "stages": [
+      "build",
+      "test"
+    ],
+    "created_at": "2024-01-08 11:00:00 UTC",
+    "finished_at": "2024-01-08 11:08:45 UTC",
+    "duration": 525,
+    "queued_duration": 3,
+    "variables": []
+  },
+  "merge_request": null,
+  "user": {
+    "id": 102,
+    "name": "John Engineer",
+    "username": "jengineer",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/102/avatar.png",
+    "email": "john@example.com"
+  },
+  "project": {
+    "id": 42,
+    "name": "My Awesome Project",
+    "description": "A great project",
+    "web_url": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "avatar_url": null,
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "namespace": "MyGroup",
+    "visibility_level": 20,
+    "path_with_namespace": "mygroup/my-awesome-project",
+    "default_branch": "main"
+  },
+  "commit": {
+    "id": "abc123def456789012345678901234567890abcd",
+    "message": "WIP: Add new API endpoint",
+    "title": "WIP: Add new API endpoint",
+    "timestamp": "2024-01-08T10:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/abc123def456789012345678901234567890abcd",
+    "author": {
+      "name": "John Engineer",
+      "email": "john@example.com"
+    }
+  },
+  "builds": []
+}
+
+### 4. Job Running
+POST {{baseUrl}}/webhooks/gitlab
+X-Gitlab-Token: {{secret}}
+X-Gitlab-Event: Job Hook
+Content-Type: application/json
+
+{
+  "object_kind": "build",
+  "ref": "main",
+  "tag": false,
+  "before_sha": "5f923865dde3436854e9ceb9cdb7815618d4e849",
+  "sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+  "build_id": 1001,
+  "build_name": "build-app",
+  "build_stage": "build",
+  "build_status": "running",
+  "build_created_at": "2024-01-08 10:00:00 UTC",
+  "build_started_at": "2024-01-08 10:00:05 UTC",
+  "build_finished_at": null,
+  "build_duration": null,
+  "build_queued_duration": 5.2,
+  "build_allow_failure": false,
+  "build_failure_reason": null,
+  "pipeline_id": 12345,
+  "runner": {
+    "id": 10,
+    "description": "docker-runner-01",
+    "active": true,
+    "runner_type": "instance_type",
+    "is_shared": true,
+    "tags": ["docker", "linux"]
+  },
+  "project_id": 42,
+  "project_name": "My Awesome Project",
+  "user": {
+    "id": 101,
+    "name": "Jane Developer",
+    "username": "jdeveloper",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/101/avatar.png",
+    "email": "jane@example.com"
+  },
+  "commit": {
+    "id": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "message": "Add new feature for user authentication",
+    "title": "Add new feature for user authentication",
+    "timestamp": "2024-01-08T09:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "author": {
+      "name": "Jane Developer",
+      "email": "jane@example.com"
+    }
+  },
+  "repository": {
+    "name": "My Awesome Project",
+    "url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "description": "A great project",
+    "homepage": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "visibility_level": 20
+  },
+  "environment": null
+}
+
+### 5. Job Success
+POST {{baseUrl}}/webhooks/gitlab
+X-Gitlab-Token: {{secret}}
+X-Gitlab-Event: Job Hook
+Content-Type: application/json
+
+{
+  "object_kind": "build",
+  "ref": "main",
+  "tag": false,
+  "before_sha": "5f923865dde3436854e9ceb9cdb7815618d4e849",
+  "sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+  "build_id": 1002,
+  "build_name": "test-unit",
+  "build_stage": "test",
+  "build_status": "success",
+  "build_created_at": "2024-01-08 10:05:25 UTC",
+  "build_started_at": "2024-01-08 10:05:30 UTC",
+  "build_finished_at": "2024-01-08 10:10:15 UTC",
+  "build_duration": 285.5,
+  "build_queued_duration": 5.0,
+  "build_allow_failure": false,
+  "build_failure_reason": null,
+  "pipeline_id": 12345,
+  "runner": {
+    "id": 10,
+    "description": "docker-runner-01",
+    "active": true,
+    "runner_type": "instance_type",
+    "is_shared": true,
+    "tags": ["docker", "linux"]
+  },
+  "project_id": 42,
+  "project_name": "My Awesome Project",
+  "user": {
+    "id": 101,
+    "name": "Jane Developer",
+    "username": "jdeveloper",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/101/avatar.png",
+    "email": "jane@example.com"
+  },
+  "commit": {
+    "id": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "message": "Add new feature for user authentication",
+    "title": "Add new feature for user authentication",
+    "timestamp": "2024-01-08T09:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "author": {
+      "name": "Jane Developer",
+      "email": "jane@example.com"
+    }
+  },
+  "repository": {
+    "name": "My Awesome Project",
+    "url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "description": "A great project",
+    "homepage": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "visibility_level": 20
+  },
+  "environment": null
+}
+
+### 6. Deployment Job Started (with Environment)
+POST {{baseUrl}}/webhooks/gitlab
+X-Gitlab-Token: {{secret}}
+X-Gitlab-Event: Job Hook
+Content-Type: application/json
+
+{
+  "object_kind": "build",
+  "ref": "main",
+  "tag": false,
+  "before_sha": "5f923865dde3436854e9ceb9cdb7815618d4e849",
+  "sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+  "build_id": 2001,
+  "build_name": "deploy-production",
+  "build_stage": "deploy",
+  "build_status": "running",
+  "build_created_at": "2024-01-08 10:10:20 UTC",
+  "build_started_at": "2024-01-08 10:10:25 UTC",
+  "build_finished_at": null,
+  "build_duration": null,
+  "build_queued_duration": 5.0,
+  "build_allow_failure": false,
+  "build_failure_reason": null,
+  "pipeline_id": 12345,
+  "runner": {
+    "id": 15,
+    "description": "deployment-runner",
+    "active": true,
+    "runner_type": "project_type",
+    "is_shared": false,
+    "tags": ["deployment", "production"]
+  },
+  "project_id": 42,
+  "project_name": "My Awesome Project",
+  "user": {
+    "id": 101,
+    "name": "Jane Developer",
+    "username": "jdeveloper",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/101/avatar.png",
+    "email": "jane@example.com"
+  },
+  "commit": {
+    "id": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "message": "Add new feature for user authentication",
+    "title": "Add new feature for user authentication",
+    "timestamp": "2024-01-08T09:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "author": {
+      "name": "Jane Developer",
+      "email": "jane@example.com"
+    }
+  },
+  "repository": {
+    "name": "My Awesome Project",
+    "url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "description": "A great project",
+    "homepage": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "visibility_level": 20
+  },
+  "environment": {
+    "name": "production",
+    "action": "start",
+    "deployment_tier": "production"
+  }
+}
+
+### 7. Deployment Job Completed (Success)
+POST {{baseUrl}}/webhooks/gitlab
+X-Gitlab-Token: {{secret}}
+X-Gitlab-Event: Job Hook
+Content-Type: application/json
+
+{
+  "object_kind": "build",
+  "ref": "main",
+  "tag": false,
+  "before_sha": "5f923865dde3436854e9ceb9cdb7815618d4e849",
+  "sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+  "build_id": 2001,
+  "build_name": "deploy-production",
+  "build_stage": "deploy",
+  "build_status": "success",
+  "build_created_at": "2024-01-08 10:10:20 UTC",
+  "build_started_at": "2024-01-08 10:10:25 UTC",
+  "build_finished_at": "2024-01-08 10:15:10 UTC",
+  "build_duration": 285.0,
+  "build_queued_duration": 5.0,
+  "build_allow_failure": false,
+  "build_failure_reason": null,
+  "pipeline_id": 12345,
+  "runner": {
+    "id": 15,
+    "description": "deployment-runner",
+    "active": true,
+    "runner_type": "project_type",
+    "is_shared": false,
+    "tags": ["deployment", "production"]
+  },
+  "project_id": 42,
+  "project_name": "My Awesome Project",
+  "user": {
+    "id": 101,
+    "name": "Jane Developer",
+    "username": "jdeveloper",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/101/avatar.png",
+    "email": "jane@example.com"
+  },
+  "commit": {
+    "id": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "message": "Add new feature for user authentication",
+    "title": "Add new feature for user authentication",
+    "timestamp": "2024-01-08T09:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "author": {
+      "name": "Jane Developer",
+      "email": "jane@example.com"
+    }
+  },
+  "repository": {
+    "name": "My Awesome Project",
+    "url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "description": "A great project",
+    "homepage": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "visibility_level": 20
+  },
+  "environment": {
+    "name": "production",
+    "action": "start",
+    "deployment_tier": "production"
+  }
+}
+
+### 8. Deployment to Staging Environment
+POST {{baseUrl}}/webhooks/gitlab
+X-Gitlab-Token: {{secret}}
+X-Gitlab-Event: Job Hook
+Content-Type: application/json
+
+{
+  "object_kind": "build",
+  "ref": "develop",
+  "tag": false,
+  "before_sha": "abc123def456789012345678901234567890abcd",
+  "sha": "def456789012345678901234567890abcdabc123",
+  "build_id": 3001,
+  "build_name": "deploy-staging",
+  "build_stage": "deploy",
+  "build_status": "success",
+  "build_created_at": "2024-01-08 12:00:00 UTC",
+  "build_started_at": "2024-01-08 12:00:05 UTC",
+  "build_finished_at": "2024-01-08 12:03:30 UTC",
+  "build_duration": 205.5,
+  "build_queued_duration": 5.0,
+  "build_allow_failure": false,
+  "build_failure_reason": null,
+  "pipeline_id": 12347,
+  "runner": {
+    "id": 15,
+    "description": "deployment-runner",
+    "active": true,
+    "runner_type": "project_type",
+    "is_shared": false,
+    "tags": ["deployment", "staging"]
+  },
+  "project_id": 42,
+  "project_name": "My Awesome Project",
+  "user": {
+    "id": 103,
+    "name": "Alice Deployer",
+    "username": "adeployer",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/103/avatar.png",
+    "email": "alice@example.com"
+  },
+  "commit": {
+    "id": "def456789012345678901234567890abcdabc123",
+    "message": "Update staging configuration",
+    "title": "Update staging configuration",
+    "timestamp": "2024-01-08T11:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/def456789012345678901234567890abcdabc123",
+    "author": {
+      "name": "Alice Deployer",
+      "email": "alice@example.com"
+    }
+  },
+  "repository": {
+    "name": "My Awesome Project",
+    "url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "description": "A great project",
+    "homepage": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "visibility_level": 20
+  },
+  "environment": {
+    "name": "staging",
+    "action": "start",
+    "deployment_tier": "staging"
+  }
+}
+
+### 9. Job Failed
+POST {{baseUrl}}/webhooks/gitlab
+X-Gitlab-Token: {{secret}}
+X-Gitlab-Event: Job Hook
+Content-Type: application/json
+
+{
+  "object_kind": "build",
+  "ref": "feature/new-api",
+  "tag": false,
+  "before_sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+  "sha": "abc123def456789012345678901234567890abcd",
+  "build_id": 1003,
+  "build_name": "test-integration",
+  "build_stage": "test",
+  "build_status": "failed",
+  "build_created_at": "2024-01-08 11:05:00 UTC",
+  "build_started_at": "2024-01-08 11:05:05 UTC",
+  "build_finished_at": "2024-01-08 11:08:30 UTC",
+  "build_duration": 205.0,
+  "build_queued_duration": 5.0,
+  "build_allow_failure": false,
+  "build_failure_reason": "script_failure",
+  "pipeline_id": 12346,
+  "runner": {
+    "id": 10,
+    "description": "docker-runner-01",
+    "active": true,
+    "runner_type": "instance_type",
+    "is_shared": true,
+    "tags": ["docker", "linux"]
+  },
+  "project_id": 42,
+  "project_name": "My Awesome Project",
+  "user": {
+    "id": 102,
+    "name": "John Engineer",
+    "username": "jengineer",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/102/avatar.png",
+    "email": "john@example.com"
+  },
+  "commit": {
+    "id": "abc123def456789012345678901234567890abcd",
+    "message": "WIP: Add new API endpoint",
+    "title": "WIP: Add new API endpoint",
+    "timestamp": "2024-01-08T10:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/abc123def456789012345678901234567890abcd",
+    "author": {
+      "name": "John Engineer",
+      "email": "john@example.com"
+    }
+  },
+  "repository": {
+    "name": "My Awesome Project",
+    "url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "description": "A great project",
+    "homepage": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "visibility_level": 20
+  },
+  "environment": null
+}
+
+### Query Event Streams
+
+### Get Pipeline Events
+GET {{baseUrl}}/pipelines/12345/events
+
+### Get Job Events
+GET {{baseUrl}}/jobs/1001/events
+
+### Get Deployment Job Events
+GET {{baseUrl}}/jobs/2001/events
+
+### Get Stream by ID
+GET {{baseUrl}}/streams/pipeline-12345/events
+
+### Health Check
+GET {{baseUrl}}/health
