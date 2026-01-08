@@ -1,0 +1,61 @@
+{
+  "object_kind": "build",
+  "ref": "main",
+  "tag": false,
+  "before_sha": "5f923865dde3436854e9ceb9cdb7815618d4e849",
+  "sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+  "build_id": 2001,
+  "build_name": "deploy-production",
+  "build_stage": "deploy",
+  "build_status": "success",
+  "build_created_at": "2024-01-08 10:10:20 UTC",
+  "build_started_at": "2024-01-08 10:10:25 UTC",
+  "build_finished_at": "2024-01-08 10:15:10 UTC",
+  "build_duration": 285.0,
+  "build_queued_duration": 5.0,
+  "build_allow_failure": false,
+  "build_failure_reason": null,
+  "pipeline_id": 12345,
+  "runner": {
+    "id": 15,
+    "description": "deployment-runner",
+    "active": true,
+    "runner_type": "project_type",
+    "is_shared": false,
+    "tags": ["deployment", "production"]
+  },
+  "project_id": 42,
+  "project_name": "My Awesome Project",
+  "user": {
+    "id": 101,
+    "name": "Jane Developer",
+    "username": "jdeveloper",
+    "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/101/avatar.png",
+    "email": "jane@example.com"
+  },
+  "commit": {
+    "id": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "message": "Add new feature for user authentication",
+    "title": "Add new feature for user authentication",
+    "timestamp": "2024-01-08T09:55:00+00:00",
+    "url": "https://gitlab.example.com/mygroup/my-awesome-project/-/commit/bcbb5ec396a2c0f828686f14fac9b80b780504f2",
+    "author": {
+      "name": "Jane Developer",
+      "email": "jane@example.com"
+    }
+  },
+  "repository": {
+    "name": "My Awesome Project",
+    "url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "description": "A great project",
+    "homepage": "https://gitlab.example.com/mygroup/my-awesome-project",
+    "git_http_url": "https://gitlab.example.com/mygroup/my-awesome-project.git",
+    "git_ssh_url": "git@gitlab.example.com:mygroup/my-awesome-project.git",
+    "visibility_level": 20
+  },
+  "environment": {
+    "name": "production",
+    "action": "start",
+    "deployment_tier": "production"
+  }
+}

@@ -92,19 +92,32 @@ dotnet run
 
 ## Testing
 
-Use the included test webhook payloads:
+### Option 1: Using curl with JSON files
+
+The `test-payloads/` directory contains sample webhook JSON files:
 
 ```bash
-# Using the test-webhooks.http file (VS Code REST Client extension)
-# Open test-webhooks.http and click "Send Request"
-
-# Or using curl
+# Send a pipeline webhook
 curl -X POST http://localhost:5045/webhooks/gitlab \
   -H "X-Gitlab-Token: dev-secret-token" \
   -H "X-Gitlab-Event: Pipeline Hook" \
   -H "Content-Type: application/json" \
-  -d @test-payload.json
+  -d @test-payloads/pipeline-running.json
+
+# Send a deployment webhook
+curl -X POST http://localhost:5045/webhooks/gitlab \
+  -H "X-Gitlab-Token: dev-secret-token" \
+  -H "X-Gitlab-Event: Job Hook" \
+  -H "Content-Type: application/json" \
+  -d @test-payloads/deployment-production.json
+
+# Query the events
+curl http://localhost:5045/pipelines/12345/events | jq
 ```
+
+### Option 2: Using VS Code REST Client
+
+Open `test-webhooks.http` and click "Send Request" above any request.
 
 ## GitLab Configuration
 
