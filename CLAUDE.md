@@ -126,6 +126,58 @@ dotnet restore
 dotnet clean
 ```
 
+## Running with Docker Compose (Recommended)
+
+The easiest way to run the application is using Docker Compose, which starts both PostgreSQL and the web API:
+
+### Quick Start
+
+```bash
+# Start both services (PostgreSQL + Web API)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f webapi
+
+# Stop services
+docker-compose down
+
+# Stop and remove database volume
+docker-compose down -v
+```
+
+### What Docker Compose Provides
+
+- **PostgreSQL 16** container with automatic database creation
+- **Web API** container built from source
+- **Health checks** ensuring PostgreSQL is ready before starting the API
+- **Persistent storage** for database data
+- **Network isolation** with dedicated bridge network
+- **Port mapping**:
+  - PostgreSQL: `5432:5432`
+  - Web API: `5045:8080`
+
+### Configuration
+
+Edit `docker-compose.yml` to customize settings:
+
+```yaml
+environment:
+  - ConnectionStrings__PostgreSQL=Host=postgres;Port=5432;Database=gitlab_webhooks;Username=postgres;Password=your_password
+  - GitLab__WebhookSecret=your-secret-token
+```
+
+### Rebuilding After Code Changes
+
+```bash
+# Rebuild and restart
+docker-compose up -d --build
+
+# Or rebuild without cache
+docker-compose build --no-cache
+docker-compose up -d
+```
+
 ## Configuration
 
 ### Required Settings
@@ -144,7 +196,11 @@ dotnet clean
 
 ### PostgreSQL Setup
 
-The application requires a PostgreSQL database. You can run PostgreSQL using Docker:
+#### Option 1: Docker Compose (Recommended)
+See the "Running with Docker Compose" section above.
+
+#### Option 2: Standalone PostgreSQL Container
+You can run PostgreSQL separately if not using Docker Compose:
 
 ```bash
 docker run -d \
@@ -154,6 +210,9 @@ docker run -d \
   -e POSTGRES_DB=gitlab_webhooks_dev \
   postgres:16
 ```
+
+#### Option 3: Local PostgreSQL Installation
+Install PostgreSQL locally and create the database manually.
 
 Marten will automatically create the schema on first run (tables: `mt_events`, `mt_streams` in `public` schema).
 
